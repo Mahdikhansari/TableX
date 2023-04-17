@@ -3,6 +3,7 @@
 // this object lets' to create a table from a JOSN object
 // Mahdi Khansari 
 // Apr 13, 2023
+// v 1.0
 // -----------------------------------------------------------------
 
 class tableX{
@@ -28,6 +29,7 @@ class tableX{
         this.columns = [];
         this.rows = [];
         this.class = {};
+        this.tableTag = '';
     }
 
     //—————————————————————————————————————————————————————————————// 
@@ -85,31 +87,96 @@ class tableX{
         else{
             return null;
         }
-
     }
 
     // get Classes
     //———————————————————————————————
     getClasses(_data){
-
     }
 
     // generate table 
     //———————————————————————————————
     createTable(){
         
-        // gets the columns
-        this.getColumns(this.data);
+        // (1) Style
+        // ==========================
+        this.addStyle_default();
+        //this.addStyle_customized(this.data);
+        
+        // (2) Extract Data
+        // ==========================
 
-        // gets the rows
+        // Columns
+        this.getColumns(this.data);
+        var colNum= this.columns.length;
+
+        // Rows
         this.getRows(this.data);
 
-        //this.getClasses(this.data);
+        // Table Tags
+        this.tableTag = '<div class="tableX_div_container">';
+        this.tableTag += '<Table class="tableX_table">';
 
-        // Create the Table tags
-        tableTag = '<Table>';
-        tableTag += '<head>';
+        // (3) Create Table
+        // ==========================
+
+        // Column Headers
+        this.tableTag += '<thead class="tableX_thead">';
+        this.tableTag += '<tr class="tableX_tr_header">';
+        this.columns.forEach((col) =>{
+            this.tableTag += '<th class = "tableX_th">';
+            this.tableTag += col;
+            this.tableTag += '</th>';
+        });
+        this.tableTag += '</tr>';
+        this.tableTag += '</thead>';
+
+        // Rows
+        this.tableTag += '<tbody class="tableX_tbody">';
+        this.rows.forEach(function(row){
+            this.tableTag += '<tr class="tableX_tr_data">';
+            row.forEach((cell) => {
+                this.tableTag += '<td class="tableX_td">'; 
+                this.tableTag += cell;
+                this.tableTag += '</td>';
+            })
+            this.tableTag += '</tr>';
+        }, this);
+        this.tableTag += '</tbody>';
+
+        this.tableTag += '</Table>';
+        this.tableTag += '</div>';
+
+        // (4) Insert 
+        // ==========================
+        // Inserts the ttable to the container
+        document.getElementById(this.container).innerHTML = this.tableTag;
 
     }
+    //—————————————————————————————————————————————————————————————// 
+    //                            Style                            //
+    //—————————————————————————————————————————————————————————————//
+
+    // Style (Base)
+    //———————————————————————————————
+    addStyle_default(){
+        var style = document.createElement('style');
+        style.innerHTML = this.TABLEX_STYLE_DEFAULT;
+        document.head.appendChild(style);
+    }
+
+    // Basic Style
+    //———————————————————————————————
+    addStyle_cusomized(){
+
+    }
+    
+    // Style (Base)
+    //———————————————————————————————
+    TABLEX_STYLE_DEFAULT = `
+        // .tableX_th{
+        //     color: red;
+        // }
+    `;
 
 }
