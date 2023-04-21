@@ -5,7 +5,7 @@
 // Apr 13, 2023
 // v 1.0
 // -----------------------------------------------------------------
-// link: https://mahdikhansari.github.io/TableX.js
+// link: https://mahdikhansari.github.io/TableX/TableX.js
 // -----------------------------------------------------------------
 
 class tableX{
@@ -168,7 +168,7 @@ class tableX{
     }
     .tableX_table{
         border-spacing:         0px;
-        height:                 100%;
+        height:                 auto;
         width:                  100%;
         border-collapse:        separate;
         border-left:            1px #838383 solid;
